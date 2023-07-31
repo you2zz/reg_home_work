@@ -9,6 +9,7 @@ if __name__ == '__main__':
     with open("data/phonebook_raw.csv", encoding='utf-8') as f:
       rows = csv.reader(f, delimiter=",")
       contacts_list = list(rows)
+
     a, a1, a2, a3, a4 = make_dict(contacts_list)
     new_contact_list = create_contact_list_correct(a, a1, a2, a3, a4)
 
