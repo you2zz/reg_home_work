@@ -4,7 +4,119 @@ import csv
 with open("phonebook_raw.csv",encoding='utf-8') as f:
   rows = csv.reader(f, delimiter=",")
   contacts_list = list(rows)
-pprint(contacts_list)
+# pprint(contacts_list)
+
+# contacts_list2=[]
+
+# for i in contacts_list:
+#   new_i = ['', '', '', '', '', '', '']
+#   i_0 = i[0].split()
+#   i_1 = i[1].split()
+#   if len(i_0) == 3:
+#     for idx, _ in enumerate(new_i):
+#       if idx < 3:
+#         new_i[idx] = i_0[idx].strip()
+#       else:
+#         new_i[idx] = i[idx]    
+#   elif len(i_0) == 2:
+#     for idx, _ in enumerate(new_i):
+#       if idx < 2:
+#         new_i[idx] = i_0[idx].strip()
+#       else:
+#         new_i[idx] = i[idx]   
+#   else: 
+#     if len(i_1) == 2:
+#       for idx, _ in enumerate(new_i):
+#         if idx < 3 and idx != 0:
+#           new_i[idx] = i_1[idx - 1].strip()
+#         else:
+#           new_i[idx] = i[idx]
+#     else:
+#       for idx, _ in enumerate(new_i):
+#         new_i[idx] = i[idx]
+#   contacts_list2.append(new_i)
+
+# pprint(contacts_list2)
+
+surnames = {}
+organizations = {}
+positions = {}
+phones = {}
+emails = {}
+
+for i in contacts_list:
+  i_0 = i[0].split()
+  i_1 = i[1].split()
+  organization = i[3]  
+  position = i[4]  
+  phone = i[5] 
+  email = i[6] 
+  if len(i_0) == 3:
+    last_first_name = f'{i_0[0].strip()} {i_0[1].strip()}'
+    surname = f'{i_0[2].strip()}'
+    if last_first_name not in surnames:
+      surnames[last_first_name] = surname
+  elif len(i_0) == 2:
+    last_first_name = f'{i_0[0].strip()} {i_0[1].strip()}'
+    surname = i[2].strip()
+    if last_first_name not in surnames:
+      surnames[last_first_name] = surname
+  else:
+    if len(i_1) == 2:
+      last_first_name = f'{i[0].strip()} {i_1[0].strip()}'
+      surname = f'{i_1[1].strip()}'      
+    else:
+      last_first_name = f'{i[0].strip()} {i[1].strip()}'
+      surname = f'{i[2].strip()}'
+    if last_first_name not in surnames:
+        surnames[last_first_name] = surname
+  if last_first_name not in organizations: # словарь с организациями
+    organizations[last_first_name] = organization
+  else:
+    if organization != '':
+      organizations[last_first_name] = organization
+  if last_first_name not in positions: # словарь с должностями
+    positions[last_first_name] = position
+  else:
+    if position != '':
+      positions[last_first_name] = position
+  if last_first_name not in phones: # словарь с телефонами
+    phones[last_first_name] = phone
+  else:
+    if phone != '':
+      phones[last_first_name] = phone
+  if last_first_name not in emails: # словарь с почтой
+    emails[last_first_name] = email
+  else:
+    if email != '':
+      emails[last_first_name] = email
+
+new_contact_list = []
+for k, v in surnames.items():
+  entry = []
+  entry.append(k.split()[0])
+  entry.append(k.split()[1])
+  entry.append(v)
+  entry.append(organizations[k])
+  entry.append(positions[k])
+  entry.append(phones[k])
+  entry.append(emails[k])
+  new_contact_list.append(entry)
+
+print(new_contact_list)
+
+
+
+  
+# print(len(surnames))
+# print(len(organizations))
+# print(len(positions))
+# print(len(phones))
+# print(len(emails))
+
+
+
+
 
 
 #(\+7|8)?\s*\(?(\d{3})\)?[-\s]*(\d{3})[-\s]*(\d{2})[-\s]*(\d{2})\s*\(*(доб.)*\s*(\d+)*\)*
